@@ -8,8 +8,8 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "spm_test",
-            targets: ["spm_test"]),
+            name: "RealmSwift",
+            targets: ["RealmSwift"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -18,11 +18,14 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .binaryTarget(name: "Realm",
+                      url: "https://github.com/jsflax/spm_test/releases/download/1.0.2/Realm.xcframework.zip",
+                     checksum: "84e5b552c376182efe5491e1b833c3e198ffb17ad3db2298f2a8b1a19edcd001"),
         .target(
-            name: "spm_test",
-            dependencies: []),
-        .testTarget(
-            name: "spm_testTests",
-            dependencies: ["spm_test"]),
+            name: "RealmSwift",
+            dependencies: ["Realm"]),
+//        .testTarget(
+//            name: "spm_testTests",
+//            dependencies: ["spm_test"]),
     ]
 )
