@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "spm_test",
+    name: "RealmSwift",
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -24,8 +24,5 @@ let package = Package(
         .target(
             name: "RealmSwift",
             dependencies: ["Realm"]),
-//        .testTarget(
-//            name: "spm_testTests",
-//            dependencies: ["spm_test"]),
     ]
 )
