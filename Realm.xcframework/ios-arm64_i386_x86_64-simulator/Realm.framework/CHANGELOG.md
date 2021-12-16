@@ -1,26 +1,54 @@
-10.20.1 Release notes (2021-12-14)
+x.y.z Release notes (yyyy-MM-dd)
 =============================================================
 
 Xcode 12.4 is now the minimum supported version of Xcode.
 
-### Fixed
+### Enhancements
+* Add class `Projection` to allow creation of light weight view models out of Realm Objects.  
+```swift
+public class Person: Object {
+    @Persisted var firstName = ""
+    @Persisted var lastName = ""
+    @Persisted var address: Address? = nil
+    @Persisted var friends = List<Person>()
+}
 
+public class Address: EmbeddedObject {
+    @Persisted var city: String = ""
+    @Persisted var country = ""
+}
+
+class PersonProjection: Projection<Person> {
+    // `Person.firstName` will have same name and type
+    @Projected(\Person.firstName) var firstName
+    // There will be the only String for `city` of the original object `Address`
+    @Projected(\Person.address.city) var homeCity 
+    // List<Person> will be mapped to list of firstNames
+    @Projected(\Person.friends.projectTo.firstName) var firstFriendsName: ProjectedCollection<String>
+}
+
+// `people` will contain projections for every `Person` object in the `realm`
+let people: Results<PersonProjection> = realm.objects(PersonProjection.self)
+```
+
+### Fixed
 * Add missing `Indexable` support for UUID.
   ([Cocoa #7545](https://github.com/realm/realm-cocoa/issues/7545), since v10.10.0)
 
 ### Breaking Changes
-
 * All `async` functions now require Xcode 13.2 to work around an App
   Store/TestFlight bug that results in apps built with 13.0/13.1 which do not
   use libConcurrency but link a library which does crashing on startup.
 
 ### Compatibility
-
 * Realm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.
 * CocoaPods: 1.10 or later.
 * Xcode: 12.2-13.2.
+
+### Internal
+* Upgraded realm-core from ? to ?
 
 10.20.0 Release notes (2021-11-16)
 =============================================================
